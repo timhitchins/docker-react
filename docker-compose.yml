@@ -1,0 +1,34 @@
+version: '3'
+services:
+  web:
+    # can't use a build . because there need to be a Dockerfile
+    #build: .
+    # this is dealt with by:
+    build:
+      # where we want the files and folder to come from
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - '3000:3000'
+      # this is how to deal with volumes
+      # to replace this long ass command:
+      # docker run -p 3000:3000 -v /app/node_modules -v $(pwd):/app b6a66800139a
+    volumes:
+      # node_modules was deleted to keep the build from being long
+      # so this say don't map back to the local directory
+      - /app/node_modules
+      # current folder outside the container to the app folder inside the container
+      # aka the local folder which is .
+      - .:/app
+  #     a semi solution service is to create a new container
+  # we wabt to set everything the same except ports
+  # the other option is to do a docker exec -it 155bf3793ea7 npm run test 
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - .:/app
+    # igonore the default of npm run start
+    command: ['npm', 'run', 'test']
