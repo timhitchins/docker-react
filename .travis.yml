@@ -9,5 +9,23 @@ before_install:
   # tag the container and force it to use .dev: 
   - docker build -t timhitchins/docker-react -f Dockerfile.dev . 
 
+  # Run the tests
 script:
   - docker run -e CI=true timhitchins/docker-react npm run test
+
+# Deploy to aws eb
+deploy:
+  # edge: true
+  provider: elasticbeanstalk # there are many others
+  region: "us-west-2" # aws region
+  app: "docker-react" # the name of the app created in aws setup
+  env: "DockerReact-env" # made from aws setup - comon set of configuration
+  bucket-name: "elasticbeanstalk-us-west-2-737041576056" # the place aws puts all the env data
+  bucket_path: "docker-react"
+  
+  # deploy on these conditions
+  on:
+    branch: master 
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
+  # give api keys to travis
