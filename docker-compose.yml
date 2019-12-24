@@ -15,7 +15,7 @@ services:
       # docker run -p 3000:3000 -v /app/node_modules -v $(pwd):/app b6a66800139a
     volumes:
       # node_modules was deleted to keep the build from being long
-      # so this say don't map back to the local directory
+      # so this says don't map back to the local directory
       - /app/node_modules
       # current folder outside the container to the app folder inside the container
       # aka the local folder which is .

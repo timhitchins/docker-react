@@ -3,7 +3,7 @@
 # the point of this phase is to build the shit
 FROM node:alpine as builder
 
-WORKDIR '/app'
+WORKDIR /app
 
 COPY package.json .
 RUN npm install

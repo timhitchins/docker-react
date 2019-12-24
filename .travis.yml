@@ -1,0 +1,13 @@
+sudo: required
+services:
+  - docker
+
+# commands that are executed
+# before tests are run
+# attempt to build docker image
+before_install:
+  # tag the container and force it to use .dev: 
+  - docker build -t timhitchins/docker-react -f Dockerfile.dev . 
+
+script:
+  - docker run -e CI=true timhitchins/docker-react npm run test
