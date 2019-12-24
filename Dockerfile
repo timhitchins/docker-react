@@ -16,6 +16,11 @@ RUN npm run build
 
 # RUN PASE
 FROM nginx
+
+# DO THIS FOR TRAVIS
+# important expose is mostly for devs but necessary for ci
+EXPOSE 80
+
 # copy from a different phase (builder)
 # the incude the nginx default
 COPY --from=builder /app/build /usr/share/nginx/html
